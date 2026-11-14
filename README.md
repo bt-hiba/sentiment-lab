@@ -3,8 +3,12 @@
 
 # Fonctionnalités :
 - text-cleaning : nettoyage des tweets (URLs, mentions, hashtags, ponctuation) — RHOFRANE Ishak
+
 - sentiment-scoring : classification des tweets en positif ou négatif (TF-IDF + régression logistique) avec un score entre -1 et +1 — FELLAH-IDRISSI Oumnia
+
 - tokenizer : découpage des tweets en tokens (mots, URLs, mentions, hashtags, émoticônes, emojis, décimaux) — KAOUKAOU Ayoub
+
+- hashtag-stats : extraction des hashtags, calcul de leur fréquence, identification des hashtags les plus populaires et statistiques par date — BITY Hiba
 
 ## Dataset
 
@@ -29,3 +33,6 @@ pytest
 ```
 
 ou, sans pytest : `python -m unittest discover -s tests -v`
+
+
+

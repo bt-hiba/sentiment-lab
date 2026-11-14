@@ -34,6 +34,9 @@ def count_hashtags(texts):
 
 def top_hashtags(texts, n=10):
     """Retourne les n hashtags les plus fréquents."""
+    if not isinstance(n, int) or isinstance(n, bool):
+        raise TypeError("n doit être un entier")
+
     if n < 0:
         raise ValueError("n doit être positif ou nul")
 

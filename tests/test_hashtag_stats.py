@@ -81,6 +81,25 @@ def test_top_hashtags_negative_n():
         top_hashtags(["#Python"], n=-1)
 
 
+
+def test_top_hashtags_rejects_non_integer_n():
+    with pytest.raises(TypeError):
+        top_hashtags(["#python #data"], n=5.5)
+
+    with pytest.raises(TypeError):
+        top_hashtags(["#python #data"], n="5")
+
+
+def test_top_hashtags_rejects_negative_n():
+    with pytest.raises(ValueError):
+        top_hashtags(["#python #data"], n=-1)
+
+
+def test_top_hashtags_accepts_zero():
+    result = top_hashtags(["#python #data"], n=0)
+    assert len(result) == 0
+    
+
 # ---------- hashtag_stats_by_date ----------
 
 def test_hashtag_stats_by_date():
