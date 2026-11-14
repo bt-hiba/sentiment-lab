@@ -66,7 +66,7 @@ def load_sentiment140(path, nrows=None):
 
 
 def clean_csv(input_path, output_path, text_column="text",
-              sentiment140=False, nrows=None):
+              sentiment140=False, nrows=None , drop_empty=True):
     """Lit un CSV de tweets, ajoute la colonne clean_text, écrit le résultat.
 
     Retourne le DataFrame nettoyé.
@@ -80,6 +80,8 @@ def clean_csv(input_path, output_path, text_column="text",
         raise ValueError(f"Colonne '{text_column}' introuvable : {list(df.columns)}")
 
     df["clean_text"] = clean_series(df[text_column])
+    if drop_empty:
+        df = df[df["clean_text"] != ""].reset_index(drop=True)
     df.to_csv(output_path, index=False)
     return df
 

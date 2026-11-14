@@ -83,7 +83,7 @@ def test_clean_csv_on_sample(tmp_path):
 
     assert out.exists()
     assert "clean_text" in df.columns
-    assert len(df) == 20
+    assert len(df) == 19
     first = df.loc[0, "clean_text"]
     assert "http" not in first and "#" not in first and "!" not in first
     assert not df["clean_text"].str.contains(r"[@#]|http").any()
