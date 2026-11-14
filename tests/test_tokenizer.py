@@ -129,6 +129,59 @@ def test_accents_apostrophes_and_percent():
     ]
 
 
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        ("battery 3.5 hours", ["battery", "3.5", "hours"]),
+        ("3,5 heures", ["3,5", "heures"]),
+        ("rated 4.5%", ["rated", "4.5%"]),
+        ("1,000,000 views", ["1,000,000", "views"]),
+        ("version 3.5.1 out", ["version", "3.5.1", "out"]),
+        ("temps 3.5.", ["temps", "3.5"]),
+        ("in 2024.Next", ["in", "2024", "Next"]),
+    ],
+)
+def test_decimals_stay_in_one_token(text, expected):
+    assert tokenize(text) == expected
+
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        ("great:)", ["great", ":)"]),
+        ("bad:(", ["bad", ":("]),
+        ("nice;) really", ["nice", ";)", "really"]),
+        ("sad:-( today", ["sad", ":-(", "today"]),
+    ],
+)
+def test_symbol_emoticon_glued_to_a_word_is_kept(text, expected):
+    assert tokenize(text) == expected
+
+
+def test_letter_emoticon_glued_to_a_word_is_a_known_limit():
+    # Documenté dans la docstring : :D / :P doivent être seuls.
+    assert tokenize("great:D") == ["great", "D"]
+
+
+def test_punctuation_is_dropped_but_inner_apostrophes_and_hyphens_stay():
+    assert tokenize("Wait... what?! (really), well-known; it's ok.") == [
+        "Wait",
+        "what",
+        "really",
+        "well-known",
+        "it's",
+        "ok",
+    ]
+
+
+def test_emojis_glued_to_words_and_variation_selector():
+    assert tokenize("great😀!!!love❤️") == ["great", "😀", "love", "❤"]
+
+
+def test_composed_emoji_is_split_into_simple_emojis():
+    assert tokenize("👍🏽") == ["👍", "🏽"]
+
+
 def test_lone_hash_is_ignored():
     assert tokenize("# not a tag") == ["not", "a", "tag"]
 
