@@ -3,7 +3,8 @@ import pandas as pd
 from src.time_series import (
     parse_dates,
     aggregate_daily_sentiment,
-    export_daily_stats
+    export_daily_stats,
+    process_sentiment140_in_chunks
 )
 
 
@@ -58,3 +59,37 @@ def test_export_daily_stats(tmp_path):
 
     assert len(result) == 1
     assert result.iloc[0]["total_tweets"] == 2
+
+
+def test_process_sentiment140_empty_file(tmp_path):
+    input_file = tmp_path / "empty.csv"
+    output_file = tmp_path / "daily_sentiment.csv"
+
+    # Create an empty CSV file
+    input_file.write_text("", encoding="latin-1")
+
+    result = process_sentiment140_in_chunks(
+        input_file,
+        output_file
+    )
+
+    expected_columns = [
+        "day",
+        "total_tweets",
+        "positive_tweets",
+        "negative_tweets",
+        "positive_rate",
+        "negative_rate"
+    ]
+
+    # Check the returned DataFrame
+    assert result.empty
+    assert list(result.columns) == expected_columns
+
+    # Check that the output CSV was created
+    assert output_file.exists()
+
+    exported = pd.read_csv(output_file)
+
+    assert exported.empty
+    assert list(exported.columns) == expected_columns

@@ -103,6 +103,7 @@ def export_daily_stats(daily_stats, output_path):
         encoding="utf-8"
     )
 
+
 def process_sentiment140_in_chunks(
     file_path,
     output_path,
@@ -125,32 +126,51 @@ def process_sentiment140_in_chunks(
     daily_results = []
 
     # Read the dataset progressively
-    for chunk in pd.read_csv(
-        file_path,
-        header=None,
-        names=columns,
-        usecols=["target", "date"],
-        encoding="latin-1",
-        chunksize=chunksize
-    ):
+    try:
+        for chunk in pd.read_csv(
+            file_path,
+            header=None,
+            names=columns,
+            usecols=["target", "date"],
+            encoding="latin-1",
+            chunksize=chunksize
+        ):
 
-        # Convert dates
-        chunk = parse_dates(chunk)
+            # Convert dates
+            chunk = parse_dates(chunk)
 
-        # Calculate statistics for this chunk
-        daily_stats = aggregate_daily_sentiment(chunk)
+            # Calculate statistics for this chunk
+            daily_stats = aggregate_daily_sentiment(chunk)
 
-        # Keep only the daily counts
-        daily_results.append(
-            daily_stats[
-                [
-                    "day",
-                    "total_tweets",
-                    "positive_tweets",
-                    "negative_tweets"
+            # Keep only the daily counts
+            daily_results.append(
+                daily_stats[
+                    [
+                        "day",
+                        "total_tweets",
+                        "positive_tweets",
+                        "negative_tweets"
+                    ]
                 ]
-            ]
-        )
+            )
+
+    except pd.errors.EmptyDataError:
+        # Handle an empty CSV file
+        pass
+
+    # Handle the case where no data was found
+    if not daily_results:
+        final_stats = pd.DataFrame(columns=[
+            "day",
+            "total_tweets",
+            "positive_tweets",
+            "negative_tweets",
+            "positive_rate",
+            "negative_rate"
+        ])
+
+        export_daily_stats(final_stats, output_path)
+        return final_stats
 
     # Combine results from all chunks
     combined = pd.concat(daily_results)
