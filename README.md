@@ -10,6 +10,8 @@
 
 - hashtag-stats : extraction des hashtags, calcul de leur fréquence, identification des hashtags les plus populaires et statistiques par date — BITY Hiba
 
+- time-series : analyse de l'évolution quotidienne des sentiments (nombre de tweets positifs et négatifs, pourcentages et statistiques par date) — MOUJRI Malika 
+
 ## Dataset
 
 La fonctionnalité sentiment-scoring utilise le dataset Sentiment140, composé de 1,6 million de tweets étiquetés :
