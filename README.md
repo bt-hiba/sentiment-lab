@@ -11,6 +11,7 @@
 - hashtag-stats : extraction des hashtags, calcul de leur fréquence, identification des hashtags les plus populaires et statistiques par date — BITY Hiba
 
 - time-series : analyse de l'évolution quotidienne des sentiments (nombre de tweets positifs et négatifs, pourcentages et statistiques par date) — MOUJRI Malika 
+- **csv-export** : export des résultats d'analyse en CSV (`src/csv_export.py`), par LKHLIFI Hiba
 
 ## Dataset
 

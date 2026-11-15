@@ -10,6 +10,7 @@ def export_to_csv(
     columns: Optional[Sequence[str]] = None,
     index: bool = False,
     sep: str = ",",
+    encoding: str = "utf-8",
 ) -> Path:
 
     if not isinstance(df, pd.DataFrame):
@@ -25,5 +26,5 @@ def export_to_csv(
 
     output = Path(path)
     output.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(output, index=index, sep=sep, encoding="utf-8")
+    df.to_csv(output, index=index, sep=sep, encoding=encoding)
     return output
