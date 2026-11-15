@@ -13,6 +13,8 @@
 - time-series : analyse de l'évolution quotidienne des sentiments (nombre de tweets positifs et négatifs, pourcentages et statistiques par date) — MOUJRI Malika 
 - **csv-export** : export des résultats d'analyse en CSV (`src/csv_export.py`), par LKHLIFI Hiba
 
+- **sentiment-score-histogram** : visualisation de la distribution des scores de sentiment des tweets sous forme d'histogramme — zinebhh (équipe E3 - MeteoETL)
+
 ## Dataset
 
 La fonctionnalité sentiment-scoring utilise le dataset Sentiment140, composé de 1,6 million de tweets étiquetés :
