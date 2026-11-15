@@ -1,65 +1,65 @@
 
-import pandas as pd
+from pathlib import Path
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 
 def plot_score_histogram(
     scores,
     bins=20,
     title="Distribution des scores de sentiment",
-    output_path=None
+    output_path=None,
 ):
     """
-    Génère un histogramme de distribution des scores de sentiment.
+    Generate a histogram of sentiment scores.
 
     Parameters
     ----------
     scores : pandas.Series, list or array
-        Scores de sentiment des tweets.
+        Sentiment scores. Missing and non-finite values are ignored.
     bins : int
-        Nombre de classes de l'histogramme.
+        Number of histogram bins.
     title : str
-        Titre du graphique.
+        Chart title.
     output_path : str or Path, optional
-        Chemin où enregistrer l'image PNG.
+        Destination path for the PNG image.
 
     Returns
     -------
     matplotlib.figure.Figure
-        Figure Matplotlib générée.
+        The generated figure.
 
-    Raises
-    ------
-    ValueError
-        Si aucun score valide n'est disponible.
+    Note
+    ----
+    The caller is responsible for closing the returned figure
+    with plt.close(fig) after use.
     """
-
-    # Convertir les scores en valeurs numériques
     valid_scores = pd.to_numeric(
-        pd.Series(scores),
-        errors="coerce"
+        pd.Series(scores), errors="coerce"
     ).dropna()
 
-    # Vérifier qu'il reste des scores valides
-    if valid_scores.empty:
-        raise ValueError("Aucun score de sentiment valide à afficher.")
+    # Remove positive and negative infinity
+    valid_scores = valid_scores[np.isfinite(valid_scores)]
 
-    # Créer la figure avec l'API objet
+    if valid_scores.empty:
+        raise ValueError(
+            "Aucun score de sentiment valide à afficher."
+        )
+
     fig, ax = plt.subplots()
 
-    # Générer l'histogramme
     ax.hist(valid_scores, bins=bins)
-
-    # Configurer les axes et le titre
     ax.set_xlabel("Score")
     ax.set_ylabel("Nombre de tweets")
     ax.set_title(title)
 
-    # Ajuster la disposition
     fig.tight_layout()
 
-    # Enregistrer l'image si un chemin est fourni
     if output_path is not None:
+        output_path = Path(output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(output_path)
 
     return fig
