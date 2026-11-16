@@ -21,12 +21,12 @@ Tous les membres restent développeurs, indépendamment de leur rôle principal.
 
 ### Membres de l'équipe
 
-- RHOFRANE Ishak
+- RHOFRANE Ishak (s-7a9)
 - FELLAH-IDRISSI Oumnia
 - KAOUKAOU Ayoub
 - MOUJRI Malika
 - LKHLIFI Hiba
-- BITY Hiba
+- BITY Hiba (bt-hiba)
 
 ## 3. Organisation des branches
 
