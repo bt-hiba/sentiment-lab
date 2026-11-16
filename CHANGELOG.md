@@ -22,3 +22,7 @@ Toutes les modifications importantes du projet **SentimentLab** sont documentée
 - **Hashtag Statistics** : validation du paramètre `n` de la fonction `top_hashtags`, avec gestion des valeurs négatives et des types non autorisés.
 - **Time Series** : correction du traitement des fichiers CSV vides afin d'éviter les erreurs lors de l'agrégation des résultats.
 - **Sentiment Score Histogram** : amélioration de la gestion des valeurs manquantes et non finies (`NaN`, `+Inf`, `-Inf`), avec contrôle des cas où aucun score valide n'est disponible.
+
+## [1.0.1]
+### Fixed
+- clean_csv() crée le dossier de sortie s'il n'existe pas (#23, signalé par l'équipe E3)
