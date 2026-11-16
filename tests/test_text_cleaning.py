@@ -123,3 +123,11 @@ def test_clean_csv_sentiment140(tmp_path):
     df = clean_csv(make_sent140(tmp_path), out, sentiment140=True)
     assert df["clean_text"].tolist() == ["i'm sad", "café time happy", "tom jerry"]
     assert out.exists()
+
+
+def test_clean_csv_creates_missing_output_directory(tmp_path):
+    out = tmp_path / "missing" / "dir" / "sample_clean.csv"
+    assert not out.parent.exists()
+    df = clean_csv(SAMPLE, out)
+    assert out.exists()
+    assert len(df) == 19
