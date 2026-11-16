@@ -11,6 +11,7 @@ Exemple en ligne de commande (depuis la racine du dépôt) :
 import argparse
 import html
 import re
+from pathlib import Path
 
 import pandas as pd
 
@@ -82,6 +83,8 @@ def clean_csv(input_path, output_path, text_column="text",
     df["clean_text"] = clean_series(df[text_column])
     if drop_empty:
         df = df[df["clean_text"] != ""].reset_index(drop=True)
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False)
     return df
 
@@ -103,3 +106,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
